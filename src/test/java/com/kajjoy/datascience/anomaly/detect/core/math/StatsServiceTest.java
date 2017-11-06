@@ -1,4 +1,4 @@
-package com.kajjoy.datascience.anomaly.detect.core.service;
+package com.kajjoy.datascience.anomaly.detect.core.math;
 
 
 import org.junit.Assert;
