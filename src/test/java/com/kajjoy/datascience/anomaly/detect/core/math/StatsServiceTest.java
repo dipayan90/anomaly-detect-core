@@ -43,10 +43,4 @@ public class StatsServiceTest {
         Assert.assertEquals(7.07,stats.getStandardDeviation(),0.02);
     }
 
-    @Test
-    public void testStandardDeviation(){
-        double[] test = new double[]{10,20};
-        Assert.assertEquals(7.07,statsService.calculateStandardDeviation(test),0.02);
-    }
-
 }

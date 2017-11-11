@@ -25,25 +25,21 @@ public class StatsService {
         return Arrays.stream(numbers).sum()/numbers.length;
     }
 
-    double calculateStandardDeviation(double[] numbers){
-        if(numbers.length == 0){
-            return 0;
-        }
-        double mean = calculateMean(numbers);
-        return Math.sqrt(Arrays.stream(numbers)
-                .map(num -> Math.pow((num-mean),2))
-                .sum()
-                /numbers.length);
-    }
-
-    double calculateNewMean(double newNumber,Stats stats){
+    public double calculateNewMean(double newNumber,Stats stats){
         if(stats.getCount() == 0){
             return newNumber;
         }
         return ( stats.getMean() + newNumber ) / (stats.getCount() + 1);
     }
 
-    double calculateNewStandardDeviation(double newNumber, Stats stats){
+    /**
+     * Sample standard deviation is being used instead of population standard deviation, since we don't
+     * know the entire set of numbers in the sample yet
+     * @param newNumber
+     * @param stats
+     * @return
+     */
+    public double calculateNewStandardDeviation(double newNumber, Stats stats){
         if(stats.getCount() == 0){
             return 0;
         }
