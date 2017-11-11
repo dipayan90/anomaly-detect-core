@@ -29,7 +29,8 @@ public class StatsService {
         if(stats.getCount() == 0){
             return newNumber;
         }
-        return ( stats.getMean() + newNumber ) / (stats.getCount() + 1);
+        int newCount = stats.getCount() + 1;
+        return (( stats.getMean() * stats.getCount())+newNumber)/newCount;
     }
 
     /**

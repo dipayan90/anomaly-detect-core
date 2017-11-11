@@ -9,13 +9,14 @@ public class AnomalyDetectApiImpl implements AnomalyDetectApi {
     private AnomalyDetectApiImpl(){}
 
     private int threshold;
+    private StorageRepository<Stats> repo;
+    private DetectionService detectionService;
 
     private AnomalyDetectApiImpl(Builder builder){
         this.threshold = builder.threshold;
+        repo = InMemoryStorageRepository.getInMemoryStorageRepository();
+        detectionService =  DetectionService.getDetectionService(threshold);
     }
-
-    private StorageRepository<Stats> repo = InMemoryStorageRepository.getInMemoryStorageRepository();
-    private DetectionService detectionService = DetectionService.getDetectionService(threshold);
 
     @Override
     public void addDataPoint(String key, double dataPoint) {
@@ -24,7 +25,7 @@ public class AnomalyDetectApiImpl implements AnomalyDetectApi {
         repo.put(key,updatedStats);
     }
 
-    class Builder{
+    public static class Builder{
         int threshold;
 
         public Builder withThreshold(int threshold){

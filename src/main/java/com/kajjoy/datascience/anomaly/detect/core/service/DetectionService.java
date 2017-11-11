@@ -30,6 +30,7 @@ public class DetectionService {
         }
         if(isAnomaly(dataPoint,stats)){
             //publish anomaly
+            System.out.println("Anomaly is: "+ dataPoint);
         }
         stats.setStandardDeviation(statsService.calculateNewStandardDeviation(dataPoint,stats));
         stats.setMean(statsService.calculateNewMean(dataPoint,stats));
@@ -43,7 +44,7 @@ public class DetectionService {
                 double range = stats.getStandardDeviation() * threshold;
                 double upperRange = stats.getMean() + range;
                 double lowerRange = stats.getMean() - range;
-                if(dataPoint > upperRange && dataPoint<lowerRange){
+                if(dataPoint > upperRange || dataPoint<lowerRange){
                     return true;
                 }
             }

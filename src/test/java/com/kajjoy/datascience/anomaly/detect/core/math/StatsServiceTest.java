@@ -24,6 +24,7 @@ public class StatsServiceTest {
     public void testStandardDeviationFromExistingStandardDeviation(){
         double num1 = 10;
         double num2 = 20;
+        double num3 = 25;
         Stats stats = new Stats();
 
         stats.setStandardDeviation(statsService.calculateNewStandardDeviation(num1,stats));
@@ -41,6 +42,14 @@ public class StatsServiceTest {
         Assert.assertEquals(2,stats.getCount(),0d);
         Assert.assertEquals(15,stats.getMean(),0d);
         Assert.assertEquals(7.07,stats.getStandardDeviation(),0.02);
+
+        stats.setStandardDeviation(statsService.calculateNewStandardDeviation(num3,stats));
+        stats.setMean(statsService.calculateNewMean(num3,stats));
+        stats.setCount(stats.getCount() + 1);
+
+        Assert.assertEquals(3,stats.getCount(),0d);
+        Assert.assertEquals(18.3,stats.getMean(),0.1d);
+        Assert.assertEquals(7.63,stats.getStandardDeviation(),0.02);
     }
 
 }
