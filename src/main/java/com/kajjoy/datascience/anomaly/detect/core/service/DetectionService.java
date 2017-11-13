@@ -1,18 +1,40 @@
 package com.kajjoy.datascience.anomaly.detect.core.service;
 
+import com.kajjoy.datascience.anomaly.detect.core.config.MessageBrokerConfig;
+import com.kajjoy.datascience.anomaly.detect.core.config.MessageBrokerType;
 import com.kajjoy.datascience.anomaly.detect.core.math.StatsService;
 import com.kajjoy.datascience.anomaly.detect.core.model.Stats;
+import com.kajjoy.datascience.anomaly.detect.core.publisher.KafkaPublisher;
+import com.kajjoy.datascience.anomaly.detect.core.publisher.Publisher;
 
 public class DetectionService {
 
     private static DetectionService detectionService;
 
-    int threshold;
+    private int threshold;
+    private MessageBrokerConfig messageBrokerConfig;
+    private MessageBrokerType messageBrokerType;
+    private Publisher publisher;
 
     private DetectionService(){}
 
     private DetectionService(int threshold){
         this.threshold = threshold;
+    }
+
+    private DetectionService(int threshold, MessageBrokerConfig messageBrokerConfig,MessageBrokerType messageBrokerType){
+        this.threshold = threshold;
+        this.messageBrokerConfig = messageBrokerConfig;
+        this.messageBrokerType = messageBrokerType;
+    }
+
+    public static DetectionService getDetectionService(int threshold,
+                                                       MessageBrokerConfig messageBrokerConfig,
+                                                       MessageBrokerType messageBrokerType){
+        if(detectionService == null){
+            detectionService = new DetectionService(threshold,messageBrokerConfig,messageBrokerType);
+        }
+        return detectionService;
     }
 
     public static DetectionService getDetectionService(int threshold){
@@ -24,13 +46,24 @@ public class DetectionService {
 
     private StatsService statsService = StatsService.getStatsService();
 
-    public Stats updateStats(Stats stats,double dataPoint){
+    public Stats updateStats(String key,Stats stats,double dataPoint){
         if(stats == null){
             stats = new Stats();
         }
         if(isAnomaly(dataPoint,stats)){
             //publish anomaly
             System.out.println("Anomaly is: "+ dataPoint);
+
+            if(messageBrokerType != null && messageBrokerConfig != null){
+                switch (messageBrokerType){
+                    case KAFKA:{
+                        publisher = new KafkaPublisher(messageBrokerConfig);
+                    }
+                }
+                publisher.publish(key,String.valueOf(dataPoint));
+            }
+
+
         }
         stats.setStandardDeviation(statsService.calculateNewStandardDeviation(dataPoint,stats));
         stats.setMean(statsService.calculateNewMean(dataPoint,stats));
