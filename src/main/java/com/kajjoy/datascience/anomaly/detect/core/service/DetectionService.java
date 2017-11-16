@@ -6,6 +6,7 @@ import com.kajjoy.datascience.anomaly.detect.core.math.StatsService;
 import com.kajjoy.datascience.anomaly.detect.core.model.Stats;
 import com.kajjoy.datascience.anomaly.detect.core.publisher.KafkaPublisher;
 import com.kajjoy.datascience.anomaly.detect.core.publisher.Publisher;
+import org.apache.log4j.Logger;
 
 public class DetectionService {
 
@@ -15,6 +16,9 @@ public class DetectionService {
     private MessageBrokerConfig messageBrokerConfig;
     private MessageBrokerType messageBrokerType;
     private Publisher publisher;
+
+    final static Logger logger = Logger.getLogger(DetectionService.class);
+
 
     private DetectionService(){}
 
@@ -52,8 +56,7 @@ public class DetectionService {
         }
         if(isAnomaly(dataPoint,stats)){
             //publish anomaly
-            System.out.println("Anomaly is: "+ dataPoint);
-
+            logger.debug("Anomaly is: " + dataPoint);
             if(messageBrokerType != null && messageBrokerConfig != null){
                 switch (messageBrokerType){
                     case KAFKA:{
