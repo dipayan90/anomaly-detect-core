@@ -42,7 +42,7 @@ public class KafkaPublisherTest {
         List<ProducerRecord<String, String>> history =  producer.history();
         history.forEach(record -> {
             Assert.assertEquals("test-topic",record.topic());
-            Assert.assertEquals("test-topic",record.key());
+            Assert.assertEquals("heap-space",record.key());
             Assert.assertEquals("10.00",record.value());
         });
 
