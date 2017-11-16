@@ -18,7 +18,6 @@ Outliers are streamed out using Kafka. You need to provide the kafka client libr
         <groupId>org.apache.kafka</groupId>
         <artifactId>kafka-clients</artifactId>
         <version>1.0.0</version>
-        <scope>provided</scope>
   </dependency>
 ```
 
