@@ -41,3 +41,15 @@ _Usage_
 
         anomalyDetectApi.addDataPoint("string-metric-name",double-value);
 ```
+
+**How do I get it**
+
+_Using Maven_
+
+```xml
+<dependency>
+    <groupId>com.kajjoy.datascience.anomaly</groupId>
+    <artifactId>detect-core</artifactId>
+    <version>1.0</version>
+</dependency>
+```
