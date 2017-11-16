@@ -24,7 +24,7 @@ public class AnomalyDetectApiImpl implements AnomalyDetectApi {
             );
         }
 
-        if(builder.threshold != 0){
+        if(builder.threshold != 0 && builder.messageBrokerType == null){
             detectionService = DetectionService.getDetectionService(builder.threshold);
         }
 
