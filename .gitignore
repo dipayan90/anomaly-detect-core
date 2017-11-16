@@ -37,4 +37,5 @@ buildNumber.properties
 !/.mvn/wrapper/maven-wrapper.jar
 
 .idea/
+*.iml
 anomaly-detect-core.iml
